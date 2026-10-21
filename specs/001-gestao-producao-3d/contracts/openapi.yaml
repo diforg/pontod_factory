@@ -1,0 +1,356 @@
+openapi: 3.0.3
+info:
+  title: 3D Production Management API
+  version: 1.0.0
+  description: API for filament, part, product, plate and reconciliation flows.
+
+servers:
+  - url: http://localhost
+    description: Local Docker environment
+
+security:
+  - cookieAuth: []
+
+paths:
+  /login:
+    post:
+      summary: Authenticate user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password, remember]
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+                remember:
+                  type: boolean
+      responses:
+        '200':
+          description: User authenticated
+
+  /dashboard:
+    get:
+      summary: Dashboard data
+      responses:
+        '200':
+          description: Active filaments, queue, and product stock overview
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  filaments:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FilamentSummary'
+                  plates:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PlateSummary'
+                  products:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProductSummary'
+
+  /filaments:
+    get:
+      summary: List filaments
+    post:
+      summary: Create filament
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FilamentCreateRequest'
+      responses:
+        '201':
+          description: Created
+
+  /filaments/{code}/movements:
+    get:
+      summary: List ledger movements for a filament
+      parameters:
+        - in: path
+          name: code
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: type
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: period_start
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: period_end
+          required: false
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: Ledger entries
+
+  /parts:
+    get:
+      summary: List parts
+    post:
+      summary: Create part
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PartCreateRequest'
+
+  /products:
+    get:
+      summary: List products
+    post:
+      summary: Create product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCreateRequest'
+
+  /plates:
+    get:
+      summary: List plates
+    post:
+      summary: Create plate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlateCreateRequest'
+
+  /plates/{id}/status:
+    patch:
+      summary: Update plate status
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [status]
+              properties:
+                status:
+                  type: string
+                  enum: [CREATED, QUEUED, PRINTING, COMPLETED]
+      responses:
+        '200':
+          description: Status updated
+
+  /plates/{id}/complete:
+    post:
+      summary: Complete plate atomically
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Completion processed
+
+  /plates/{id}/reopen:
+    post:
+      summary: Reopen completed plate with reversal transaction
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Plate reopened
+
+  /filaments/reconcile:
+    post:
+      summary: Reconcile ledger and balance
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                apply:
+                  type: boolean
+                  default: false
+      responses:
+        '200':
+          description: reconciliation result
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: laravel_session
+
+  schemas:
+    FilamentSummary:
+      type: object
+      properties:
+        code:
+          type: string
+        balance:
+          type: number
+        is_active:
+          type: boolean
+
+    PlateSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+        status:
+          type: string
+        sort_order:
+          type: integer
+        consumed_filament_g:
+          type: number
+          nullable: true
+
+    ProductSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        parts:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductPartSummary'
+
+    ProductPartSummary:
+      type: object
+      properties:
+        part_id:
+          type: integer
+        code:
+          type: string
+        quantity:
+          type: integer
+        available_quantity:
+          type: integer
+
+    FilamentCreateRequest:
+      type: object
+      required: [code, brand, material, color, weight, price]
+      properties:
+        brand:
+          type: string
+        material:
+          type: string
+        color:
+          type: string
+        weight:
+          type: number
+        price:
+          type: number
+
+    PartCreateRequest:
+      type: object
+      required: [code, description, size, filament_g, production_time_min]
+      properties:
+        code:
+          type: string
+        description:
+          type: string
+        size:
+          type: string
+        filament_g:
+          type: number
+        production_time_min:
+          type: integer
+
+    ProductCreateRequest:
+      type: object
+      required: [code, name, description, size, version, sale_price]
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        size:
+          type: string
+        version:
+          type: string
+        sale_price:
+          type: number
+
+    PlateCreateRequest:
+      type: object
+      required: [filament_code, parts]
+      properties:
+        filament_code:
+          type: string
+        parts:
+          type: array
+          items:
+            type: object
+            required: [part_id, quantity]
+            properties:
+              part_id:
+                type: integer
+              quantity:
+                type: integer
+
+    FilamentMovement:
+      type: object
+      properties:
+        id:
+          type: integer
+        filament_code:
+          type: string
+        type:
+          type: string
+          enum: [ENTRY, CONSUMPTION, REVERSAL, RECONCILIATION_ADJUSTMENT]
+        quantity_g:
+          type: number
+        previous_balance_g:
+          type: number
+        new_balance_g:
+          type: number
+        source_type:
+          type: string
+          enum: [ENTRY, PLATE, RECONCILIATION]
+        source_id:
+          type: integer
+          nullable: true
+        occurred_at:
+          type: string
+          format: date-time
+        user_id:
+          type: integer
+          nullable: true
