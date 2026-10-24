@@ -42,8 +42,11 @@ class CompletePlate
             $currentBalance = (float) $filament->balance;
 
             if ($currentBalance < $total) {
+                $required = number_format($total, 2, '.', '');
+                $available = number_format($currentBalance, 2, '.', '');
+
                 throw new DomainException(
-                    "Insufficient filament balance. Required: {$total}, available: {$currentBalance}."
+                    "Insufficient filament balance. Required: {$required}, available: {$available}."
                 );
             }
 
