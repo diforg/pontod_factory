@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+COMPOSE="docker compose -f docker/docker-compose.yml --env-file .env"
+
+# 1. Garantir .env
+if [ ! -f .env ]; then
+  cp .env.example .env
+fi
+
+# 2. Garantir APP_KEY
+if ! grep -q '^APP_KEY=base64:' .env; then
+  echo "Generating APP_KEY..."
+  $COMPOSE run --rm app php artisan key:generate --force --no-interaction
+fi
+
+# 3. Subir MySQL e aguardar
+$COMPOSE up -d mysql
+echo "Waiting for MySQL..."
+for i in $(seq 1 30); do
+  if $COMPOSE exec -T mysql mysqladmin ping -h localhost --silent 2>/dev/null; then
+    echo "MySQL ready."
+    break
+  fi
+  sleep 1
+done
+
+# 4. Composer install
+$COMPOSE run --rm app composer install --no-interaction
+
+# 5. Migrations + seed
+$COMPOSE run --rm app php artisan migrate:fresh --seed --force --no-interaction
+
+# 6. Assets
+$COMPOSE run --rm node npm ci
+$COMPOSE run --rm node npm run build
+
+# 7. Subir tudo
+$COMPOSE up -d
+
+echo "Setup complete: http://localhost:8000"
