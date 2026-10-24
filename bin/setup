@@ -10,13 +10,7 @@ if [ ! -f .env ]; then
   cp .env.example .env
 fi
 
-# 2. Garantir APP_KEY
-if ! grep -q '^APP_KEY=base64:' .env; then
-  echo "Generating APP_KEY..."
-  $COMPOSE run --rm app php artisan key:generate --force --no-interaction
-fi
-
-# 3. Subir MySQL e aguardar
+# 2. Subir MySQL e aguardar
 $COMPOSE up -d mysql
 echo "Waiting for MySQL..."
 for i in $(seq 1 30); do
@@ -27,13 +21,22 @@ for i in $(seq 1 30); do
   sleep 1
 done
 
-# 4. Composer install
+# 3. Composer install (necessário antes de qualquer artisan)
+echo "Installing PHP dependencies..."
 $COMPOSE run --rm app composer install --no-interaction
 
+# 4. Garantir APP_KEY (agora artisan funciona)
+if ! grep -q '^APP_KEY=base64:' .env; then
+  echo "Generating APP_KEY..."
+  $COMPOSE run --rm app php artisan key:generate --force --no-interaction
+fi
+
 # 5. Migrations + seed
+echo "Running migrations and seed..."
 $COMPOSE run --rm app php artisan migrate:fresh --seed --force --no-interaction
 
 # 6. Assets
+echo "Installing JS dependencies and building assets..."
 $COMPOSE run --rm node npm ci
 $COMPOSE run --rm node npm run build
 
