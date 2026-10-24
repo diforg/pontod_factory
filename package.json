@@ -9,6 +9,7 @@
         "format": "prettier --write resources/js"
     },
     "devDependencies": {
+        "@eslint/js": "^9.39.5",
         "@inertiajs/vue3": "^2.0.0",
         "@tailwindcss/forms": "^0.5.3",
         "@vitejs/plugin-vue": "^6.0.0",
@@ -16,7 +17,9 @@
         "autoprefixer": "^10.4.12",
         "axios": "^1.7.4",
         "concurrently": "^9.0.1",
-        "eslint": "^9.1.0",
+        "eslint": "^9.39.5",
+        "eslint-plugin-vue": "^10.11.1",
+        "globals": "^15.15.0",
         "laravel-vite-plugin": "^1.2.0",
         "postcss": "^8.4.31",
         "prettier": "^3.1.0",
