@@ -30,39 +30,39 @@
 
 ## Phase 1 — Data Foundation [US2, US4, US5]
 
-- T007 [US2]: Migration `users` (padrão Breeze + `remember_token`), se necessário para o schema do Breeze.
+- [X] T007 [US2]: Migration `users` (padrão Breeze + `remember_token`), se necessário para o schema do Breeze.
   - Files: `database/migrations/*_create_users_table.php`
   - Completion: the users table exists with the Breeze auth structure and can be rolled back cleanly.
 
-- T008 [US2]: Migration `filaments` com `CHECK (balance >= 0)`, índices `(material, brand, color)` e `(is_active)`.
+- [X] T008 [US2]: Migration `filaments` com `CHECK (balance >= 0)`, índices `(material, brand, color)` e `(is_active)`.
   - Files: `database/migrations/*_create_filaments_table.php`
   - Completion: migration creates the filaments table with positive balance guard and required indexes.
 
-- T009 [US5]: Migration `filament_movements` com FKs para `filaments.code` e `users.id`, `CHECK`s (`quantity_g <> 0` e `new_balance_g = previous_balance_g + quantity_g`), índices `(filament_code, occurred_at)`, `(source_type, source_id)`, `(type)`, e sem `updated_at`.
+- [X] T009 [US5]: Migration `filament_movements` com FKs para `filaments.code` e `users.id`, `CHECK`s (`quantity_g <> 0` e `new_balance_g = previous_balance_g + quantity_g`), índices `(filament_code, occurred_at)`, `(source_type, source_id)`, `(type)`, e sem `updated_at`.
   - Files: `database/migrations/*_create_filament_movements_table.php`
   - Completion: the ledger table is append-only by design and can be migrated and rolled back without errors.
 
-- T010 [US2]: Migration `parts` com `UNIQUE` em `code` e `is_active`.
+- [X] T010 [US2]: Migration `parts` com `UNIQUE` em `code` e `is_active`.
   - Files: `database/migrations/*_create_parts_table.php`
   - Completion: parts table exists with unique code and active flag.
 
-- T011 [US2]: Migration `products` com `UNIQUE` em `code` e `is_active`.
+- [X] T011 [US2]: Migration `products` com `UNIQUE` em `code` e `is_active`.
   - Files: `database/migrations/*_create_products_table.php`
   - Completion: products table exists with unique code and active flag.
 
-- T012 [US2]: Migration `part_product` com `quantity INT NOT NULL DEFAULT 1`, `CHECK (quantity > 0)`, índice em `part_id`.
+- [X] T012 [US2]: Migration `part_product` com `quantity INT NOT NULL DEFAULT 1`, `CHECK (quantity > 0)`, índice em `part_id`.
   - Files: `database/migrations/*_create_part_product_table.php`
   - Completion: product-to-part composition supports quantity and retains valid values only.
 
-- T013 [US2]: Migration `plates` com FK para `filaments.code`, enum status, `sort_order`, `consumed_filament_g` nullable, `completed_at` nullable, `CHECK (consumed_filament_g IS NULL OR consumed_filament_g >= 0)`, índices `(status, sort_order)` e `(filament_code)`.
+- [X] T013 [US2]: Migration `plates` com FK para `filaments.code`, enum status, `sort_order`, `consumed_filament_g` nullable, `completed_at` nullable, `CHECK (consumed_filament_g IS NULL OR consumed_filament_g >= 0)`, índices `(status, sort_order)` e `(filament_code)`.
   - Files: `database/migrations/*_create_plates_table.php`
   - Completion: plate lifecycle table is created with order and snapshot fields and valid status constraints.
 
-- T014 [US2]: Migration `part_plate` com `quantity`, `consumed_filament_g` nullable, `CHECK (quantity > 0)`, índice em `part_id`.
+- [X] T014 [US2]: Migration `part_plate` com `quantity`, `consumed_filament_g` nullable, `CHECK (quantity > 0)`, índice em `part_id`.
   - Files: `database/migrations/*_create_part_plate_table.php`
   - Completion: the many-to-many plate/part mapping stores quantity and frozen per-piece snapshot support.
 
-- T015 [US2]: Migration `items` com FKs para `parts.id` e `plates.id`, índices em `part_id` e `plate_id`.
+- [X] T015 [US2]: Migration `items` com FKs para `parts.id` e `plates.id`, índices em `part_id` e `plate_id`.
   - Files: `database/migrations/*_create_items_table.php`
   - Completion: stock items are persisted with traceable part/plate links.
 
