@@ -2,27 +2,27 @@
 
 ## Phase 0 — Setup [INFRA]
 
-- T001 [INFRA]: Dockerfile multi-stage (build de assets + runtime PHP 8.3).
+- [X] T001 [INFRA]: Dockerfile multi-stage (build de assets + runtime PHP 8.3).
   - Files: `docker/Dockerfile`
   - Completion: `docker build` succeeds and the runtime image includes PHP 8.3 + Node asset build tooling.
 
-- T002 [INFRA] [P]: docker-compose.yml com serviços `app`, `mysql` 8.4 e `node`, com volume persistente do MySQL.
+- [X] T002 [INFRA] [P]: docker-compose.yml com serviços `app`, `mysql` 8.4 e `node`, com volume persistente do MySQL.
   - Files: `docker/docker-compose.yml`
   - Completion: `docker compose up -d` starts the app and database services with persistent data volume.
 
-- T003 [INFRA]: `.env.example` com `DB_*`, `APP_KEY`, `APP_URL`, `APP_ENV`.
+- [X] T003 [INFRA]: `.env.example` com `DB_*`, `APP_KEY`, `APP_URL`, `APP_ENV`.
   - Files: `.env.example`
   - Completion: sample environment includes all required Laravel app and database configuration keys.
 
-- T004 [INFRA]: `bin/setup` para `composer install`, `key:generate`, `migrate --seed`, `npm install`, `npm run build`.
+- [X] T004 [INFRA]: `bin/setup` para `composer install`, `key:generate`, `migrate --seed`, `npm install`, `npm run build`.
   - Files: `bin/setup`
   - Completion: the setup script completes end-to-end in a clean environment and boots the app without fixups.
 
-- T005 [INFRA]: Instalar Laravel 11 + Breeze (Inertia/Vue) + Pest + Pint + ESLint + Prettier + Vitest + Vue Draggable Next; configurar scripts em `package.json` e `composer.json`.
+- [X] T005 [INFRA]: Instalar Laravel 11 + Breeze (Inertia/Vue) + Pest + Pint + ESLint + Prettier + Vitest + Vue Draggable Next; configurar scripts em `package.json` e `composer.json`.
   - Files: `composer.json`, `package.json`
   - Completion: the application bootstraps with the selected stack and all configured scripts run without dependency errors.
 
-- T006 [INFRA]: Configurar `routes/web.php` e `routes/auth.php` com middleware `auth` no grupo protegido.
+- [X] T006 [INFRA]: Configurar `routes/web.php` e `routes/auth.php` com middleware `auth` no grupo protegido.
   - Files: `routes/web.php`, `routes/auth.php`
   - Completion: unauthenticated users are redirected to the login page and protected routes require authentication.
 
