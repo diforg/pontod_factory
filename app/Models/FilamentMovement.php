@@ -52,4 +52,15 @@ class FilamentMovement extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    protected static function booted(): void
+    {
+        static::updating(function (): void {
+            throw new \RuntimeException('FilamentMovement is append-only; updates are prohibited.');
+        });
+
+        static::deleting(function (): void {
+            throw new \RuntimeException('FilamentMovement is append-only; deletes are prohibited.');
+        });
+    }
 }
