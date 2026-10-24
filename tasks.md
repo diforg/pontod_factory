@@ -66,15 +66,15 @@
   - Files: `database/migrations/*_create_items_table.php`
   - Completion: stock items are persisted with traceable part/plate links.
 
-- T016 [US2]: Models Eloquent: `Filament`, `FilamentMovement`, `Part`, `Product`, `Plate`, `Item`; definir relacionamentos (`belongsTo`, `hasMany`, `belongsToMany` via `part_product` e `part_plate`).
+- [X] T016 [US2]: Models Eloquent: `Filament`, `FilamentMovement`, `Part`, `Product`, `Plate`, `Item`; definir relacionamentos (`belongsTo`, `hasMany`, `belongsToMany` via `part_product` e `part_plate`).
   - Files: `app/Models/*.php`
   - Completion: all models expose expected relationships used by controllers, actions, and tests.
 
-- T017 [US5]: Em `FilamentMovement::booted()`, bloquear `update` e `delete` com exceção. Teste unitário cobrindo a proteção do ledger.
+- [X] T017 [US5]: Em `FilamentMovement::booted()`, bloquear `update` e `delete` com exceção. Teste unitário cobrindo a proteção do ledger.
   - Files: `app/Models/FilamentMovement.php`, `tests/Unit/FilamentMovementTest.php`
   - Completion: any update or delete on a ledger row raises an exception and the unit test passes.
 
-- T018 [US2] [P]: Enums em `app/Enums`: `PlateStatus`, `MovementType`, `MovementSourceType`.
+- [X] T018 [US2] [P]: Enums em `app/Enums`: `PlateStatus`, `MovementType`, `MovementSourceType`.
   - Files: `app/Enums/*.php`
   - Completion: enums exist for all plate statuses and movement types and are used consistently across the codebase.
 
