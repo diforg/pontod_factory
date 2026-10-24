@@ -82,19 +82,19 @@
 
 ## Phase 2 — Domain Support [US2]
 
-- T019 [US2]: Teste unitário de `FilamentCodeGenerator` cobrindo: formato `MATERIAL-BRAND-COLOR-NNNN`, incremental atômico sob concorrência simulada e unicidade sob lock/transação.
+- [X] T019 [US2]: Teste unitário de `FilamentCodeGenerator` cobrindo: formato `MATERIAL-BRAND-COLOR-NNNN`, incremental atômico sob concorrência simulada e unicidade sob lock/transação.
   - Files: `tests/Unit/FilamentCodeGeneratorTest.php`
   - Completion: the test is written before implementation and covers collision safety under concurrent generation attempts.
 
-- T020 [US2]: Implementar `App\Support\FilamentCodeGenerator` usando transação + lock (SELECT MAX por prefixo ou tabela de sequência).
+- [X] T020 [US2]: Implementar `App\Support\FilamentCodeGenerator` usando transação + lock (SELECT MAX por prefixo ou tabela de sequência).
   - Files: `app/Support/FilamentCodeGenerator.php`
   - Completion: `T019` passes and generator creates collision-safe codes in the required format.
 
-- T021 [US2]: Teste unitário de `PlateSnapshotService` cobrindo: cálculo de `consumed_filament_g` (soma de `part.filament_g × quantity`), snapshot total na placa e por peça na pivot, e comportamento após edição de `part.filament_g` (não deve retroagir).
+- [X] T021 [US2]: Teste unitário de `PlateSnapshotService` cobrindo: cálculo de `consumed_filament_g` (soma de `part.filament_g × quantity`), snapshot total na placa e por peça na pivot, e comportamento após edição de `part.filament_g` (não deve retroagir).
   - Files: `tests/Unit/PlateSnapshotServiceTest.php`
   - Completion: the test is written before implementation and covers the historical snapshot semantics.
 
-- T022 [US2]: Implementar `App\Services\PlateSnapshotService`.
+- [X] T022 [US2]: Implementar `App\Services\PlateSnapshotService`.
   - Files: `app/Services/PlateSnapshotService.php`
   - Completion: `T021` passes and the service freezes per-plate consumption without retroactive mutation.
 
