@@ -73,9 +73,16 @@ test('generate grows to five digits after 9999', function () {
             'created_at' => now(),
             'updated_at' => now(),
         ];
+
+        if (count($rows) >= 1000) {
+            DB::table('filaments')->insert($rows);
+            $rows = [];
+        }
     }
 
-    DB::table('filaments')->insert($rows);
+    if ($rows !== []) {
+        DB::table('filaments')->insert($rows);
+    }
 
     $generator = new FilamentCodeGenerator();
 
