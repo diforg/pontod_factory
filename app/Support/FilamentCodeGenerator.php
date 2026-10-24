@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class FilamentCodeGenerator
 {
@@ -19,6 +20,9 @@ class FilamentCodeGenerator
      * (max 3 attempts) and re-running generation after the unique constraint violation.
      *
      * Sanitization rules:
+     * - transliterate to ASCII (Str::ascii) so accents become plain letters
+     *   ("Céu" -> "Ceu"); iconv //TRANSLIT is NOT used because Alpine/musl does
+     *   not implement it reliably.
      * - uppercase material, brand, and color
      * - spaces become a single hyphen
      * - collapse repeated hyphens
@@ -78,7 +82,7 @@ class FilamentCodeGenerator
     private function sanitizeSegment(string $value): string
     {
         $normalized = trim($value);
-        $normalized = (string) iconv('UTF-8', 'ASCII//TRANSLIT', $normalized);
+        $normalized = Str::ascii($normalized);
         $normalized = strtoupper($normalized);
         $normalized = preg_replace('/[^A-Za-z0-9]+/', '-', $normalized);
         $normalized = preg_replace('/-+/', '-', (string) $normalized);
