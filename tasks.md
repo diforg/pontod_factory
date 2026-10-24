@@ -102,27 +102,27 @@
 
 ## Phase 3 — Business Actions [US2, US4]
 
-- T023 [US2]: Teste Feature `CreateFilament` cobrindo criação de rolo com `balance = weight`, `ENTRY` com `previous_balance_g = 0`, `new_balance_g = weight`, `source_id = NULL`, `source_type = ENTRY`, operação em transação única, e rollback em falha.
+- [X] T023 [US2]: Teste Feature `CreateFilament` cobrindo criação de rolo com `balance = weight`, `ENTRY` com `previous_balance_g = 0`, `new_balance_g = weight`, `source_id = NULL`, `source_type = ENTRY`, operação em transação única, e rollback em falha.
   - Files: `tests/Feature/Filaments/CreateFilamentTest.php`
   - Completion: the test is written before implementation and describes the expected single-rolo creation behavior.
 
-- T024 [US2]: Implementar `App\Actions\CreateFilament`.
+- [X] T024 [US2]: Implementar `App\Actions\CreateFilament`.
   - Files: `app/Actions/CreateFilament.php`
   - Completion: `T023` passes and creates a new filament roll with the correct default balance and ledger entry.
 
-- T025 [US2]: Teste Feature `CompletePlate` cobrindo: congela `consumed_filament_g` total e por peça, cria itens (1 por unidade por peça), decrementa `filaments.balance`, grava `CONSUMPTION` no ledger com previous/new balance, muda status para `COMPLETED`, rollback total em falha, e idempotência (segunda chamada não duplica itens, saldo nem movimento).
+- [X] T025 [US2]: Teste Feature `CompletePlate` cobrindo: congela `consumed_filament_g` total e por peça, cria itens (1 por unidade por peça), decrementa `filaments.balance`, grava `CONSUMPTION` no ledger com previous/new balance, muda status para `COMPLETED`, rollback total em falha, e idempotência (segunda chamada não duplica itens, saldo nem movimento).
   - Files: `tests/Feature/Plates/CompletePlateTest.php`
   - Completion: the test is written before implementation and captures the atomic completion + idempotence contract.
 
-- T026 [US2]: Implementar `App\Actions\CompletePlate` com `DB::transaction` + `lockForUpdate` no filamento + guard de status.
+- [X] T026 [US2]: Implementar `App\Actions\CompletePlate` com `DB::transaction` + `lockForUpdate` no filamento + guard de status.
   - Files: `app/Actions/CompletePlate.php`
   - Completion: `T025` passes and completion is atomic, balance-checked, and idempotent.
 
-- T027 [US2]: Teste Feature `CompletePlate` — bloqueio por saldo insuficiente: `saldo < consumo` lança exceção, saldo/items/ledger inalterados, status permanece `PRINTING`.
+- [X] T027 [US2]: Teste Feature `CompletePlate` — bloqueio por saldo insuficiente: `saldo < consumo` lança exceção, saldo/items/ledger inalterados, status permanece `PRINTING`.
   - Files: `tests/Feature/Plates/CompletePlateInsufficientBalanceTest.php`
   - Completion: the failing test is created before implementation and passes after validation logic is added.
 
-- T028 [US2]: Implementar validação de saldo em `CompletePlate`.
+- [X] T028 [US2]: Implementar validação de saldo em `CompletePlate`.
   - Files: `app/Actions/CompletePlate.php`
   - Completion: `T027` passes and no invalid completion writes any side effects.
 
