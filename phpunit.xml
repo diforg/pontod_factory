@@ -13,8 +13,16 @@
         </testsuite>
     </testsuites>
     <source>
+        <!--
+            Coverage scope: business logic only, per constitution VIII
+            ("cobertura mínima de 80% nas Actions de negócio").
+            Controllers (Phase 4), Models (scaffolding) and Enums (trivial)
+            are measured separately once their phases are complete.
+        -->
         <include>
-            <directory>app</directory>
+            <directory>app/Actions</directory>
+            <directory>app/Services</directory>
+            <directory>app/Support</directory>
         </include>
     </source>
     <php>
