@@ -1,10 +1,10 @@
 <?php
 
 use App\Enums\MovementType;
-use App\Http\Middleware\HandleInertiaRequests;
 use App\Models\Filament;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia as Assert;
 
 uses(RefreshDatabase::class);
 
@@ -21,18 +21,18 @@ function filamentPayload(array $overrides = []): array
 
 test('authenticated user can view filaments index with inertia props', function () {
     $user = User::factory()->create();
-
-    $this->withoutMiddleware(HandleInertiaRequests::class);
+    $this->withoutVite();
     $this->actingAs($user);
 
-    $response = $this->withHeader('X-Inertia', 'true')->get('/filaments');
+    $response = $this->get('/filaments');
 
     $response->assertOk();
-    $response->assertJsonPath('component', 'Filaments/Index');
-    $response->assertJsonStructure([
-        'component',
-        'props' => ['filaments'],
-    ]);
+    $response->assertInertia(fn (Assert $page) =>
+        $page->component('Filaments/Index', false)
+            ->has('filaments')
+            ->has('auth.user')
+            ->where('auth.user.id', $user->id)
+    );
 });
 
 test('guest is redirected to login when accessing filaments index', function () {

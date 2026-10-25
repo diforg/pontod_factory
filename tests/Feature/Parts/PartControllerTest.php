@@ -1,11 +1,11 @@
 <?php
 
 use App\Enums\PlateStatus;
-use App\Http\Middleware\HandleInertiaRequests;
 use App\Models\Part;
 use App\Models\Plate;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia as Assert;
 
 uses(RefreshDatabase::class);
 
@@ -35,18 +35,18 @@ function createPartForControllerTests(string $code = 'NUV1-DOMO_INFERIOR_A'): Pa
 
 test('authenticated user can view parts index with inertia props', function () {
     $user = User::factory()->create();
+    $this->withoutVite();
 
-    $this->withoutMiddleware(HandleInertiaRequests::class);
-    $response = $this->actingAs($user)
-        ->withHeader('X-Inertia', 'true')
-        ->get('/parts');
+    $this->actingAs($user);
+    $response = $this->get('/parts');
 
     $response->assertOk();
-    $response->assertJsonPath('component', 'Parts/Index');
-    $response->assertJsonStructure([
-        'component',
-        'props' => ['parts'],
-    ]);
+    $response->assertInertia(fn (Assert $page) =>
+        $page->component('Parts/Index', false)
+            ->has('parts')
+            ->has('auth.user')
+            ->where('auth.user.id', $user->id)
+    );
 });
 
 test('guest is redirected to login when accessing parts index', function () {

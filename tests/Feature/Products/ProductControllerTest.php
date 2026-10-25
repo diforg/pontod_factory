@@ -3,8 +3,8 @@
 use App\Models\Part;
 use App\Models\Product;
 use App\Models\User;
-use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia as Assert;
 
 uses(RefreshDatabase::class);
 
@@ -15,7 +15,6 @@ function productPayload(array $overrides = []): array
         'name' => 'Produto P',
         'description' => 'Produto base',
         'size' => 'P',
-        'version' => 'v1',
         'sale_price' => 89.90,
         'is_active' => true,
     ], $overrides);
@@ -28,7 +27,6 @@ function createProductForControllerTests(string $code = 'NUVP1'): Product
         'name' => 'Produto P',
         'description' => 'Produto base',
         'size' => 'P',
-        'version' => 'v1',
         'sale_price' => 89.90,
         'is_active' => true,
     ]);
@@ -48,18 +46,18 @@ function createPartForProductTests(string $code): Part
 
 test('authenticated user can view products index with inertia props', function () {
     $user = User::factory()->create();
+    $this->withoutVite();
 
-    $this->withoutMiddleware(HandleInertiaRequests::class);
-    $response = $this->actingAs($user)
-        ->withHeader('X-Inertia', 'true')
-        ->get('/products');
+    $this->actingAs($user);
+    $response = $this->get('/products');
 
     $response->assertOk();
-    $response->assertJsonPath('component', 'Products/Index');
-    $response->assertJsonStructure([
-        'component',
-        'props' => ['products'],
-    ]);
+    $response->assertInertia(fn (Assert $page) =>
+        $page->component('Products/Index', false)
+            ->has('products')
+            ->has('auth.user')
+            ->where('auth.user.id', $user->id)
+    );
 });
 
 test('guest is redirected to login when accessing products index', function () {
