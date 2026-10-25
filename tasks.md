@@ -166,19 +166,19 @@
   - Files: `app/Http/Requests/*.php`, `app/Http/Controllers/ProductController.php`, `tests/Feature/Products/*.php`
   - Completion: product creation and quantity association work and validation passes.
 
-- T038 [US2]: Form Requests: `StorePlateRequest`, `UpdatePlateStatusRequest`, `ReorderPlateRequest`; `PlateController` (`index`, `store`, `update`, `updateStatus`, `reorder`) + testes.
+- [X] T038 [US2]: Form Requests: `StorePlateRequest`, `UpdatePlateStatusRequest`, `ReorderPlateRequest`; `PlateController` (`index`, `store`, `update`, `updateStatus`, `reorder`) + testes.
   - Files: `app/Http/Requests/*.php`, `app/Http/Controllers/PlateController.php`, `tests/Feature/Plates/*.php`
   - Completion: plate status transitions and queue reordering are validated and persisted.
 
-- T039 [US5]: `ItemController` + ledger controller (movements) com filtros por `type` e período + testes.
+- [X] T039 [US5]: `ItemController` + ledger controller (movements) com filtros por `type` e período + testes.
   - Files: `app/Http/Controllers/*.php`, `tests/Feature/Ledger/*.php`
   - Completion: ledger endpoints filter correctly and return only valid movement history.
 
-- T040 [US3]: `DashboardController` retornando payload único com filamentos ativos + saldo, placas não concluídas ordenadas e produtos com contagem de itens por peça + testes.
+- [X] T040 [US3]: `DashboardController` retornando payload único com filamentos ativos + saldo, placas não concluídas ordenadas e produtos com contagem de itens por peça + testes.
   - Files: `app/Http/Controllers/DashboardController.php`, `tests/Feature/Dashboard/*.php`
   - Completion: dashboard data is aggregated correctly and the page renders valid production information.
 
-- T041 [US2]: Rotas em `routes/web.php` cobrindo os endpoints acima, sob `middleware auth`.
+- [X] T041 [US2]: Rotas em `routes/web.php` cobrindo os endpoints acima, sob `middleware auth`.
   - Files: `routes/web.php`
   - Completion: all protected routes are wired and unauthorized requests are blocked.
 
