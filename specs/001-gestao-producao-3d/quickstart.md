@@ -48,7 +48,7 @@ The default seed should create:
 10. Run the reconciliation command:
 
 ```bash
-docker compose exec app php artisan filaments:reconcile --dry-run
+docker compose exec app php artisan filaments:reconcile
 docker compose exec app php artisan filaments:reconcile --apply
 ```
 
@@ -80,3 +80,19 @@ Verify:
 - set a filament balance below the projected plate consumption;
 - complete the plate;
 - verify the transaction is rejected and no side effects are recorded.
+
+## Reconciliation
+
+To check for divergence between the stored balance and the ledger:
+
+```bash
+docker compose exec app php artisan filaments:reconcile
+```
+
+This runs in dry-run mode by default - it lists divergences without modifying anything. To apply corrections:
+
+```bash
+docker compose exec app php artisan filaments:reconcile --apply
+```
+
+Corrections are recorded as `RECONCILIATION_ADJUSTMENT` movements in the ledger; the stored balance is updated by the same movement (never by a direct `UPDATE` bypassing the ledger).
