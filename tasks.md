@@ -146,23 +146,23 @@
 
 ## Phase 4 — HTTP Layer [US1, US2, US3]
 
-- T033 [US1]: Configurar Breeze com `remember me` ativo. Teste Feature: login com remember gera cookie persistente; logout invalida.
+- [X] T033 [US1]: Configurar Breeze com `remember me` ativo. Teste Feature: login com remember gera cookie persistente; logout invalida.
   - Files: `config/auth.php`, `routes/auth.php`, `tests/Feature/Auth/LoginTest.php`
   - Completion: persistent login and logout work and the feature test passes.
 
-- T034 [US2]: Form Requests: `StoreFilamentRequest`, `UpdateFilamentRequest`.
+- [X] T034 [US2]: Form Requests: `StoreFilamentRequest`, `UpdateFilamentRequest`.
   - Files: `app/Http/Requests/*.php`
   - Completion: validation rules are in place and covered by feature tests.
 
-- T035 [US2]: `FilamentController` (`index`, `store`, `update`, `activate`, `deactivate`) + testes Feature por endpoint.
+- [X] T035 [US2]: `FilamentController` (`index`, `store`, `update`, `activate`, `deactivate`) + testes Feature por endpoint.
   - Files: `app/Http/Controllers/FilamentController.php`, `tests/Feature/Filaments/*.php`
   - Completion: all filament endpoints execute with expected validation and persistence semantics.
 
-- T036 [US2]: Form Requests: `StorePartRequest`, `UpdatePartRequest`; `PartController` + testes.
+- [X] T036 [US2]: Form Requests: `StorePartRequest`, `UpdatePartRequest`; `PartController` + testes.
   - Files: `app/Http/Requests/*.php`, `app/Http/Controllers/PartController.php`, `tests/Feature/Parts/*.php`
   - Completion: CRUD flows for parts work and validation passes.
 
-- T037 [US2]: Form Requests: `StoreProductRequest`, `UpdateProductRequest`; `ProductController` + testes.
+- [X] T037 [US2]: Form Requests: `StoreProductRequest`, `UpdateProductRequest`; `ProductController` + testes.
   - Files: `app/Http/Requests/*.php`, `app/Http/Controllers/ProductController.php`, `tests/Feature/Products/*.php`
   - Completion: product creation and quantity association work and validation passes.
 
