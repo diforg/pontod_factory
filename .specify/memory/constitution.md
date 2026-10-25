@@ -76,7 +76,8 @@ Regras:
 - Toda operação que altere saldo DEVE gravar exatamente uma movimentação na mesma transação.
 
 ### C. RECONCILIAÇÃO OBRIGATÓRIA
-- Deve existir um comando/rotina de reconciliação que recalcula o saldo esperado a partir do ledger (`SUM(quantidade_g) por filamento`) e compara com o saldo persistido.
+- Deve existir um comando/rotina de reconciliação que recalcula o saldo esperado a partir do ledger e compara com o saldo persistido.
+- A soma usada pela reconciliação é a soma operacional (`ENTRADA + CONSUMO + ESTORNO`) com baseline no último `AJUSTE_RECONCILIACAO`, quando houver. Ajustes de reconciliação NÃO participam da soma como se fossem movimentos operacionais — eles definem um novo ponto de partida.
 - Divergências são registradas em log e, mediante confirmação explícita, corrigidas via movimentação `AJUSTE_RECONCILIACAO` — nunca por `UPDATE` direto no saldo.
 - O comando é executável manualmente e deve ser documentado. A existência do mecanismo é pré-requisito para qualquer release.
 - O snapshot `placa.consumo_filamento_g` é a fonte de verdade histórica do consumo; o ledger é a fonte de verdade da variação do saldo; a reconciliação cruza os dois e sinaliza inconsistências.

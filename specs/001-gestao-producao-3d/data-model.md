@@ -208,7 +208,8 @@ This makes the ledger auditable without coupling it to an arbitrary row relation
 
 ## Derived rules
 
-- `filaments.balance = SUM(movements.quantity_g)` (in a consistent ledger state)
+- Reconciliation expected balance = (last `RECONCILIATION_ADJUSTMENT` row's `new_balance_g` if any) + `SUM(quantity_g WHERE type IN ('ENTRY', 'CONSUMPTION', 'REVERSAL') AND id > last_adjustment_id)`. If no adjustment exists, expected = sum of operational movement types only.
+- Invariant: after any reconciliation, `filaments.balance` equals the expected value above. `RECONCILIATION_ADJUSTMENT` establishes a new baseline rather than accumulating in the operational sum — this preserves reconciliation idempotency.
 - `plates.consumed_filament_g` = sum of part_plate consumption snapshot for that plate
 - `part_plate.consumed_filament_g` is frozen at the most recent completion and cleared on reopen; it is not recalculated from current part definitions when part `filament_g` changes later
 - `items` are created only during a successful atomic completion transaction
@@ -219,3 +220,4 @@ This makes the ledger auditable without coupling it to an arbitrary row relation
 - `items` grows one row per produced unit; this is acceptable for the small-business volume in v1 and can be revisited in a later model when stock volume or archive requirements increase.
 - `part_product` has no timestamps; this is acceptable for v1, but a later version may require `created_at` and `updated_at` for audit of composition changes.
 - `filament_movements` has no idempotence key such as `(source_id, type)` for plate-generated movements; idempotence is ensured by the database transaction and the status guard (`UPDATE ... WHERE status = 'PRINTING'`), which is sufficient for v1. If the strategy changes, add a unique constraint for plate-driven `CONSUMPTION` and `REVERSAL` entries.
+- Reconciliation expected-value calculation assumes `RECONCILIATION_ADJUSTMENT` rows are append-only and monotonically ordered by `id`. If adjustments are ever deleted (they must not be, per constitution B), the baseline logic would break.
