@@ -31,7 +31,7 @@ const submit = () => {
 
 <template>
   <GuestLayout>
-    <Head title="Log in" />
+    <Head title="Entrar" />
 
     <div
       v-if="status"
@@ -66,7 +66,7 @@ const submit = () => {
       <div class="mt-4">
         <InputLabel
           for="password"
-          value="Password"
+          value="Senha"
         />
 
         <TextInput
@@ -90,7 +90,7 @@ const submit = () => {
             v-model:checked="form.remember"
             name="remember"
           />
-          <span class="ms-2 text-sm text-gray-600">Remember me</span>
+          <span class="ms-2 text-sm text-gray-600">Lembrar-me</span>
         </label>
       </div>
 
@@ -100,7 +100,7 @@ const submit = () => {
           :href="route('password.request')"
           class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
-          Forgot your password?
+          Esqueci minha senha
         </Link>
 
         <PrimaryButton
@@ -108,7 +108,7 @@ const submit = () => {
           :class="{ 'opacity-25': form.processing }"
           :disabled="form.processing"
         >
-          Log in
+          Entrar
         </PrimaryButton>
       </div>
     </form>
