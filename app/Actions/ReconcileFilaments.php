@@ -11,6 +11,14 @@ use Illuminate\Support\Facades\DB;
 class ReconcileFilaments
 {
     /**
+     * Expected balance = baseline from the last reconciliation adjustment (if any)
+     * + sum of operational movements after that baseline.
+     *
+     * RECONCILIATION_ADJUSTMENT movements are NOT summed as if they were
+     * operational — they establish a new baseline. This preserves idempotency
+     * (running apply twice is a no-op the second time) AND correctness for the
+     * legitimate "adjust then continue operating" scenario.
+     *
      * @return array{
      *   checked: int,
      *   consistent: array<int, string>,
@@ -34,9 +42,7 @@ class ReconcileFilaments
         foreach ($filaments as $filament) {
             $result['checked']++;
 
-            $expected = (float) FilamentMovement::query()
-                ->where('filament_code', $filament->code)
-                ->sum('quantity_g');
+            $expected = $this->computeExpectedBalance($filament->code);
             $current = (float) $filament->balance;
             $diff = round($expected - $current, 2);
 
@@ -63,9 +69,7 @@ class ReconcileFilaments
                     ->lockForUpdate()
                     ->firstOrFail();
 
-                $expected = (float) FilamentMovement::query()
-                    ->where('filament_code', $locked->code)
-                    ->sum('quantity_g');
+                $expected = $this->computeExpectedBalance($locked->code);
                 $previous = (float) $locked->balance;
                 $diff = round($expected - $previous, 2);
 
@@ -95,5 +99,43 @@ class ReconcileFilaments
         }
 
         return $result;
+    }
+
+    /**
+     * Expected balance = baseline from the last reconciliation adjustment, if any,
+     * plus the sum of operational movements recorded afterward.
+     */
+    private function computeExpectedBalance(string $filamentCode): float
+    {
+        $lastAdjustment = FilamentMovement::query()
+            ->where('filament_code', $filamentCode)
+            ->where('type', MovementType::RECONCILIATION_ADJUSTMENT->value)
+            ->orderByDesc('id')
+            ->first();
+
+        if ($lastAdjustment !== null) {
+            $baseline = (float) $lastAdjustment->new_balance_g;
+
+            $postAdjustmentOperationalSum = (float) FilamentMovement::query()
+                ->where('filament_code', $filamentCode)
+                ->whereIn('type', [
+                    MovementType::ENTRY->value,
+                    MovementType::CONSUMPTION->value,
+                    MovementType::REVERSAL->value,
+                ])
+                ->where('id', '>', $lastAdjustment->id)
+                ->sum('quantity_g');
+
+            return round($baseline + $postAdjustmentOperationalSum, 2);
+        }
+
+        return round((float) FilamentMovement::query()
+            ->where('filament_code', $filamentCode)
+            ->whereIn('type', [
+                MovementType::ENTRY->value,
+                MovementType::CONSUMPTION->value,
+                MovementType::REVERSAL->value,
+            ])
+            ->sum('quantity_g'), 2);
     }
 }
