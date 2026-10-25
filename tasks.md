@@ -202,23 +202,23 @@
   - Files: `resources/js/Pages/Products/Index.vue`
   - Completion: the product composition is persisted and quantity on `part_product` is reflected correctly.
 
-- T046 [US2]: Página `Plates/Index.vue` com CRUD, mudança de status e aviso visual quando o consumo estimado excede o saldo (A3=B).
+- [X] T046 [US2]: Página `Plates/Index.vue` com CRUD, mudança de status e aviso visual quando o consumo estimado excede o saldo (A3=B).
   - Files: `resources/js/Pages/Plates/Index.vue`
   - Completion: plate creation and status updates work and warnings trigger correctly before completion.
 
-- T047 [US3] [P]: `PlateDragList.vue` com Vue Draggable Next; persistir reorder via endpoint.
+- [X] T047 [US3] [P]: `PlateDragList.vue` com Vue Draggable Next; persistir reorder via endpoint.
   - Files: `resources/js/Components/PlateDragList.vue`
   - Completion: drag-and-drop persists sort order and survives reload.
 
-- T048 [US3] [P]: `ProductCollapse.vue` com peças e quantidade disponível.
+- [X] T048 [US3] [P]: `ProductCollapse.vue` com peças e quantidade disponível.
   - Files: `resources/js/Components/ProductCollapse.vue`
   - Completion: product expansion shows part quantities and available stock without stale values.
 
-- T049 [US3]: `Dashboard/Index.vue` compondo filamentos, placas e products.
+- [X] T049 [US3]: `Dashboard/Index.vue` compondo filamentos, placas e products.
   - Files: `resources/js/Pages/Dashboard/Index.vue`
   - Completion: dashboard loads the aggregated production snapshot and remains readable.
 
-- T050 [US5]: Página de ledger/movimentações com filtros por `type` e período.
+- [X] T050 [US5]: Página de ledger/movimentações com filtros por `type` e período.
   - Files: `resources/js/Pages/Ledger/Index.vue`
   - Completion: the ledger page renders movement data with type and period filtering.
 
@@ -226,7 +226,7 @@
   - Files: `resources/js/Components/StatusBadge.vue`
   - Completion: statuses are displayed with localized labels and consistent mapping.
 
-- T052 [INFRA]: Componente reutilizável de flash/erro para feedback de operações críticas (conclusão bloqueada por saldo, reconciliação aplicada).
+- [X] T052 [INFRA]: Componente reutilizável de flash/erro para feedback de operações críticas (conclusão bloqueada por saldo, reconciliação aplicada).
   - Files: `resources/js/Components/FlashMessage.vue`
   - Completion: critical business messages display consistently on the UI.
 
