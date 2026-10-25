@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Part;
 use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Arr;
@@ -18,6 +19,11 @@ class ProductController extends Controller
         return Inertia::render('Products/Index', [
             'products' => Product::query()
                 ->with('parts:id,code')
+                ->orderBy('code')
+                ->get(),
+            'parts' => Part::query()
+                ->select('id', 'code', 'description')
+                ->where('is_active', true)
                 ->orderBy('code')
                 ->get(),
         ]);
