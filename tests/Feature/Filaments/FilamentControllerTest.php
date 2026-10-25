@@ -27,11 +27,10 @@ test('authenticated user can view filaments index with inertia props', function 
     $response = $this->get('/filaments');
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) =>
-        $page->component('Filaments/Index', false)
-            ->has('filaments')
-            ->has('auth.user')
-            ->where('auth.user.id', $user->id)
+    $response->assertInertia(fn (Assert $page) => $page->component('Filaments/Index', false)
+        ->has('filaments')
+        ->has('auth.user')
+        ->where('auth.user.id', $user->id)
     );
 });
 

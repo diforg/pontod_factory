@@ -5,7 +5,6 @@ use App\Actions\CreateFilament;
 use App\Enums\MovementSourceType;
 use App\Enums\MovementType;
 use App\Enums\PlateStatus;
-use App\Models\Filament;
 use App\Models\FilamentMovement;
 use App\Models\Item;
 use App\Models\Part;

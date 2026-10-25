@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 uses(RefreshDatabase::class);
 
 test('generate emits correct code for the first roll', function () {
-    $generator = new FilamentCodeGenerator();
+    $generator = new FilamentCodeGenerator;
 
     expect($generator->generate('PLA', 'Multfila', 'Rosa'))
         ->toBe('PLA-MULTFILA-ROSA-0001');
@@ -26,7 +26,7 @@ test('generate increments after an existing code in the same prefix', function (
         'balance' => 1000,
     ]);
 
-    $generator = new FilamentCodeGenerator();
+    $generator = new FilamentCodeGenerator;
 
     expect($generator->generate('PLA', 'Multfila', 'Rosa'))
         ->toBe('PLA-MULTFILA-ROSA-0002');
@@ -44,14 +44,14 @@ test('generate does not collide across different prefixes', function () {
         'balance' => 1000,
     ]);
 
-    $generator = new FilamentCodeGenerator();
+    $generator = new FilamentCodeGenerator;
 
     expect($generator->generate('PLA', 'Multfila', 'Preto'))
         ->toBe('PLA-MULTFILA-PRETO-0001');
 });
 
 test('generate normalizes spaces and hyphens and uppercases values', function () {
-    $generator = new FilamentCodeGenerator();
+    $generator = new FilamentCodeGenerator;
 
     expect($generator->generate('PLA', 'Mult Filament', 'Azul Céu'))
         ->toBe('PLA-MULT-FILAMENT-AZUL-CEU-0001');
@@ -84,7 +84,7 @@ test('generate grows to five digits after 9999', function () {
         DB::table('filaments')->insert($rows);
     }
 
-    $generator = new FilamentCodeGenerator();
+    $generator = new FilamentCodeGenerator;
 
     expect($generator->generate('PLA', 'Multfila', 'Rosa'))
         ->toBe('PLA-MULTFILA-ROSA-10000');

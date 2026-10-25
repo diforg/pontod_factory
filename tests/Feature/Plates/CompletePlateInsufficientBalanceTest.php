@@ -4,7 +4,6 @@ use App\Actions\CompletePlate;
 use App\Actions\CreateFilament;
 use App\Enums\MovementType;
 use App\Enums\PlateStatus;
-use App\Models\Filament;
 use App\Models\FilamentMovement;
 use App\Models\Item;
 use App\Models\Part;

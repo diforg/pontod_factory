@@ -52,11 +52,10 @@ test('authenticated user can view products index with inertia props', function (
     $response = $this->get('/products');
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) =>
-        $page->component('Products/Index', false)
-            ->has('products')
-            ->has('auth.user')
-            ->where('auth.user.id', $user->id)
+    $response->assertInertia(fn (Assert $page) => $page->component('Products/Index', false)
+        ->has('products')
+        ->has('auth.user')
+        ->where('auth.user.id', $user->id)
     );
 });
 

@@ -68,13 +68,12 @@ test('authenticated user can view dashboard with required inertia props', functi
     $response = $this->actingAs($user)->get('/dashboard');
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) =>
-        $page->component('Dashboard/Index', false)
-            ->has('active_filaments')
-            ->has('unfinished_plates')
-            ->has('products_with_parts')
-            ->has('auth.user')
-            ->where('auth.user.id', $user->id)
+    $response->assertInertia(fn (Assert $page) => $page->component('Dashboard/Index', false)
+        ->has('active_filaments')
+        ->has('unfinished_plates')
+        ->has('products_with_parts')
+        ->has('auth.user')
+        ->where('auth.user.id', $user->id)
     );
 });
 
@@ -88,10 +87,9 @@ test('dashboard active filaments does not include inactive ones', function () {
     $response = $this->actingAs($user)->get('/dashboard');
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) =>
-        $page->component('Dashboard/Index', false)
-            ->has('active_filaments', 1)
-            ->where('active_filaments.0.code', $active->code)
+    $response->assertInertia(fn (Assert $page) => $page->component('Dashboard/Index', false)
+        ->has('active_filaments', 1)
+        ->where('active_filaments.0.code', $active->code)
     );
 });
 
@@ -122,11 +120,10 @@ test('dashboard unfinished plates excludes completed and keeps sort order', func
     $response = $this->actingAs($user)->get('/dashboard');
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) =>
-        $page->component('Dashboard/Index', false)
-            ->has('unfinished_plates', 2)
-            ->where('unfinished_plates.0.id', $plateA->id)
-            ->where('unfinished_plates.1.id', $plateB->id)
+    $response->assertInertia(fn (Assert $page) => $page->component('Dashboard/Index', false)
+        ->has('unfinished_plates', 2)
+        ->where('unfinished_plates.0.id', $plateA->id)
+        ->where('unfinished_plates.1.id', $plateB->id)
     );
 });
 
@@ -162,10 +159,9 @@ test('dashboard products with parts includes items count per part', function () 
     $response = $this->actingAs($user)->get('/dashboard');
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) =>
-        $page->component('Dashboard/Index', false)
-            ->where('products_with_parts.0.parts.0.items_count', 2)
-            ->where('products_with_parts.0.parts.1.items_count', 1)
+    $response->assertInertia(fn (Assert $page) => $page->component('Dashboard/Index', false)
+        ->where('products_with_parts.0.parts.0.items_count', 2)
+        ->where('products_with_parts.0.parts.1.items_count', 1)
     );
 });
 

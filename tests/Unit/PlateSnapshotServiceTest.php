@@ -45,7 +45,7 @@ function makePlateWithPart(float $filamentG, int $quantity): array
 test('computeForPlate calculates total and per-part consumption for one piece', function () {
     [$plate, $part] = makePlateWithPart(1.2, 1);
 
-    expect((new PlateSnapshotService())->computeForPlate($plate))->toBe([
+    expect((new PlateSnapshotService)->computeForPlate($plate))->toBe([
         'total' => 1.2,
         'per_part' => [
             $part->id => ['quantity' => 1, 'consumed_g' => 1.2],
@@ -56,7 +56,7 @@ test('computeForPlate calculates total and per-part consumption for one piece', 
 test('computeForPlate calculates total and per-part consumption for multiple quantity of same piece', function () {
     [$plate, $part] = makePlateWithPart(1.2, 3);
 
-    expect((new PlateSnapshotService())->computeForPlate($plate))->toBe([
+    expect((new PlateSnapshotService)->computeForPlate($plate))->toBe([
         'total' => 3.6,
         'per_part' => [
             $part->id => ['quantity' => 3, 'consumed_g' => 3.6],
@@ -104,7 +104,7 @@ test('computeForPlate calculates total and per-part consumption for multiple dif
     $plate->parts()->attach($partA->id, ['quantity' => 2]);
     $plate->parts()->attach($partB->id, ['quantity' => 1]);
 
-    expect((new PlateSnapshotService())->computeForPlate($plate))->toBe([
+    expect((new PlateSnapshotService)->computeForPlate($plate))->toBe([
         'total' => 3.2,
         'per_part' => [
             $partA->id => ['quantity' => 2, 'consumed_g' => 2.4],
@@ -132,7 +132,7 @@ test('computeForPlate returns zero for a plate without parts', function () {
         'consumed_filament_g' => null,
     ]);
 
-    expect((new PlateSnapshotService())->computeForPlate($plate))->toBe([
+    expect((new PlateSnapshotService)->computeForPlate($plate))->toBe([
         'total' => 0.0,
         'per_part' => [],
     ]);

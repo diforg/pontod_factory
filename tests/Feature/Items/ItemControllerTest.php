@@ -62,13 +62,12 @@ test('authenticated user can view items index with inertia props', function () {
     $response = $this->actingAs($user)->get('/items');
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) =>
-        $page->component('Items/Index', false)
-            ->has('items', 1)
-            ->has('plates')
-            ->has('parts')
-            ->has('auth.user')
-            ->where('auth.user.id', $user->id)
+    $response->assertInertia(fn (Assert $page) => $page->component('Items/Index', false)
+        ->has('items', 1)
+        ->has('plates')
+        ->has('parts')
+        ->has('auth.user')
+        ->where('auth.user.id', $user->id)
     );
 });
 
@@ -88,10 +87,9 @@ test('items index filters by plate id', function () {
     $response = $this->actingAs($user)->get('/items?plate_id='.$plateA->id);
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) =>
-        $page->component('Items/Index', false)
-            ->has('items', 1)
-            ->where('items.0.plate_id', $plateA->id)
+    $response->assertInertia(fn (Assert $page) => $page->component('Items/Index', false)
+        ->has('items', 1)
+        ->where('items.0.plate_id', $plateA->id)
     );
 });
 
@@ -110,10 +108,9 @@ test('items index filters by part id', function () {
     $response = $this->actingAs($user)->get('/items?part_id='.$partB->id);
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) =>
-        $page->component('Items/Index', false)
-            ->has('items', 1)
-            ->where('items.0.part_id', $partB->id)
+    $response->assertInertia(fn (Assert $page) => $page->component('Items/Index', false)
+        ->has('items', 1)
+        ->where('items.0.part_id', $partB->id)
     );
 });
 

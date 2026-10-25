@@ -67,13 +67,12 @@ test('authenticated user can view plates index with inertia props', function () 
     $response = $this->actingAs($user)->get('/plates');
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) =>
-        $page->component('Plates/Index', false)
-            ->has('plates', 1)
-            ->has('filament_balances')
-            ->where('filament_balances.'.$filament->code, '850.00')
-            ->has('auth.user')
-            ->where('auth.user.id', $user->id)
+    $response->assertInertia(fn (Assert $page) => $page->component('Plates/Index', false)
+        ->has('plates', 1)
+        ->has('filament_balances')
+        ->where('filament_balances.'.$filament->code, '850.00')
+        ->has('auth.user')
+        ->where('auth.user.id', $user->id)
     );
 });
 

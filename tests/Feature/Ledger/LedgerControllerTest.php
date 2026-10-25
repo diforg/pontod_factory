@@ -49,13 +49,12 @@ test('authenticated user can view ledger index with inertia props', function () 
     $response = $this->actingAs($user)->get('/ledger');
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) =>
-        $page->component('Ledger/Index', false)
-            ->has('movements', 1)
-            ->has('filaments')
-            ->has('filters')
-            ->has('auth.user')
-            ->where('auth.user.id', $user->id)
+    $response->assertInertia(fn (Assert $page) => $page->component('Ledger/Index', false)
+        ->has('movements', 1)
+        ->has('filaments')
+        ->has('filters')
+        ->has('auth.user')
+        ->where('auth.user.id', $user->id)
     );
 });
 
@@ -70,10 +69,9 @@ test('ledger index filters by movement type', function () {
     $response = $this->actingAs($user)->get('/ledger?type=CONSUMPTION');
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) =>
-        $page->component('Ledger/Index', false)
-            ->has('movements', 1)
-            ->where('movements.0.type', MovementType::CONSUMPTION->value)
+    $response->assertInertia(fn (Assert $page) => $page->component('Ledger/Index', false)
+        ->has('movements', 1)
+        ->where('movements.0.type', MovementType::CONSUMPTION->value)
     );
 });
 
@@ -90,10 +88,9 @@ test('ledger index filters by filament code', function () {
     $response = $this->actingAs($user)->get('/ledger?filament_code='.$filamentB->code);
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) =>
-        $page->component('Ledger/Index', false)
-            ->has('movements', 1)
-            ->where('movements.0.filament_code', $filamentB->code)
+    $response->assertInertia(fn (Assert $page) => $page->component('Ledger/Index', false)
+        ->has('movements', 1)
+        ->where('movements.0.filament_code', $filamentB->code)
     );
 });
 
@@ -110,10 +107,9 @@ test('ledger index filters by occurred at date period', function () {
     $response = $this->actingAs($user)->get('/ledger?from_date=2026-10-10&to_date=2026-10-20');
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) =>
-        $page->component('Ledger/Index', false)
-            ->has('movements', 1)
-            ->where('movements.0.type', MovementType::CONSUMPTION->value)
+    $response->assertInertia(fn (Assert $page) => $page->component('Ledger/Index', false)
+        ->has('movements', 1)
+        ->where('movements.0.type', MovementType::CONSUMPTION->value)
     );
 });
 
@@ -137,12 +133,11 @@ test('ledger show returns only movements for the requested filament', function (
     $response = $this->actingAs($user)->get('/ledger/'.$filamentA->code);
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) =>
-        $page->component('Ledger/Show', false)
-            ->where('filament.code', $filamentA->code)
-            ->has('movements', 2)
-            ->where('movements.0.filament_code', $filamentA->code)
-            ->where('movements.1.filament_code', $filamentA->code)
+    $response->assertInertia(fn (Assert $page) => $page->component('Ledger/Show', false)
+        ->where('filament.code', $filamentA->code)
+        ->has('movements', 2)
+        ->where('movements.0.filament_code', $filamentA->code)
+        ->where('movements.1.filament_code', $filamentA->code)
     );
 });
 

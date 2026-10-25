@@ -15,7 +15,6 @@ test('success flash is shared via Inertia props', function () {
         ->get('/dashboard');
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) =>
-        $page->where('flash.success', 'Teste flash')
+    $response->assertInertia(fn (Assert $page) => $page->where('flash.success', 'Teste flash')
     );
 });

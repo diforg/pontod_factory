@@ -1,6 +1,8 @@
 <?php
 
+use App\Actions\CreateFilament;
 use App\Enums\PlateStatus;
+use App\Models\Item;
 use App\Models\Part;
 use App\Models\Plate;
 use App\Models\User;
@@ -41,11 +43,10 @@ test('authenticated user can view parts index with inertia props', function () {
     $response = $this->get('/parts');
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) =>
-        $page->component('Parts/Index', false)
-            ->has('parts')
-            ->has('auth.user')
-            ->where('auth.user.id', $user->id)
+    $response->assertInertia(fn (Assert $page) => $page->component('Parts/Index', false)
+        ->has('parts')
+        ->has('auth.user')
+        ->where('auth.user.id', $user->id)
     );
 });
 
@@ -117,7 +118,7 @@ test('destroy keeps soft delete behavior even when part has plates and items', f
 
     $part = createPartForControllerTests();
 
-    $filamentCode = app(App\Actions\CreateFilament::class)->execute('PLA', 'Multfila', 'Preto', 1000, 42.50)->code;
+    $filamentCode = app(CreateFilament::class)->execute('PLA', 'Multfila', 'Preto', 1000, 42.50)->code;
 
     $plate = Plate::query()->create([
         'filament_code' => $filamentCode,
@@ -129,7 +130,7 @@ test('destroy keeps soft delete behavior even when part has plates and items', f
 
     $plate->parts()->attach($part->id, ['quantity' => 1]);
 
-    App\Models\Item::query()->create([
+    Item::query()->create([
         'part_id' => $part->id,
         'plate_id' => $plate->id,
     ]);
