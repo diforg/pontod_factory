@@ -9,6 +9,7 @@ use App\Http\Requests\ReorderPlateRequest;
 use App\Http\Requests\StorePlateRequest;
 use App\Http\Requests\UpdatePlateStatusRequest;
 use App\Models\Filament;
+use App\Models\Part;
 use App\Models\Plate;
 use App\Services\PlateSnapshotService;
 use DomainException;
@@ -25,10 +26,17 @@ class PlateController extends Controller
     {
         return Inertia::render('Plates/Index', [
             'plates' => Plate::query()
-                ->with(['filament:code,balance', 'parts:id,code,filament_g'])
+                ->with(['parts:id,code,description,filament_g,is_active'])
                 ->orderBy('sort_order')
                 ->orderBy('id')
                 ->get(),
+            'filaments' => Filament::query()
+                ->orderBy('code')
+                ->get(['code', 'brand', 'material', 'color', 'balance', 'is_active']),
+            'parts' => Part::query()
+                ->where('is_active', true)
+                ->orderBy('code')
+                ->get(['id', 'code', 'description', 'filament_g', 'is_active']),
             'filament_balances' => Filament::query()
                 ->orderBy('code')
                 ->pluck('balance', 'code')
