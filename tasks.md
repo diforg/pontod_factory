@@ -234,9 +234,9 @@
 
 ## Phase 6 — Reconciliation Command [US4]
 
-- T053 [US4]: `App\Console\Commands\ReconcileFilaments` como wrapper fino que chama `App\Actions\ReconcileFilaments`. Flags `--apply` e `--dry-run` (default). Teste de comando via Pest (`artisan call`).
-  - Files: `app/Console/Commands/ReconcileFilaments.php`, `tests/Feature/Reconciliation/ReconcileFilamentsCommandTest.php`
-  - Completion: `php artisan filaments:reconcile --dry-run` and `--apply` behave according to `T031` and the command is documented in quickstart.
+- T053 [X] [US4]: `App\Console\Commands\ReconcileFilaments` como wrapper fino que chama `App\Actions\ReconcileFilaments`. Flag `--apply` para aplicar; sem flag roda em dry-run por padrão. Teste de comando via Pest (`artisan call`).
+  - Files: `app/Console/Commands/ReconcileFilaments.php`, `tests/Feature/Commands/ReconcileFilamentsCommandTest.php`
+  - Completion: `php artisan filaments:reconcile` and `--apply` behave according to `T031` and the command is documented in quickstart.
 
 - Phase 6 completion: reconciliation command works in dry-run and apply modes as defined by the business rules.
 
