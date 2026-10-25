@@ -186,19 +186,19 @@
 
 ## Phase 5 — Frontend [US1, US2, US3, US5]
 
-- T042 [US1]: Página `Auth/Login.vue` com checkbox para “manter logado”.
+- [X] T042 [US1]: Página `Auth/Login.vue` com checkbox para “manter logado”.
   - Files: `resources/js/Pages/Auth/Login.vue`
   - Completion: the login form includes persistent session control and authenticated sessions behave as expected.
 
-- T043 [US2] [P]: Página `Filaments/Index.vue` com listagem, criar novo rolo, ativar/desativar. Componente `FilamentCard.vue`.
+- [X] T043 [US2] [P]: Página `Filaments/Index.vue` com listagem, criar novo rolo, ativar/desativar. Componente `FilamentCard.vue`.
   - Files: `resources/js/Pages/Filaments/Index.vue`, `resources/js/Components/FilamentCard.vue`
   - Completion: filament CRUD flows work through the UI and reflect real ledger balance changes.
 
-- T044 [US2] [P]: Página `Parts/Index.vue` com CRUD.
+- [X] T044 [US2] [P]: Página `Parts/Index.vue` com CRUD.
   - Files: `resources/js/Pages/Parts/Index.vue`
   - Completion: part creation/editing works and persisted data matches backend rules.
 
-- T045 [US2] [P]: Página `Products/Index.vue` com CRUD + associação de peças.
+- [X] T045 [US2] [P]: Página `Products/Index.vue` com CRUD + associação de peças.
   - Files: `resources/js/Pages/Products/Index.vue`
   - Completion: the product composition is persisted and quantity on `part_product` is reflected correctly.
 
@@ -222,7 +222,7 @@
   - Files: `resources/js/Pages/Ledger/Index.vue`
   - Completion: the ledger page renders movement data with type and period filtering.
 
-- T051 [US2]: `StatusBadge.vue` com tradução de enum → rótulo PT-BR.
+- [X] T051 [US2]: `StatusBadge.vue` com tradução de enum → rótulo PT-BR.
   - Files: `resources/js/Components/StatusBadge.vue`
   - Completion: statuses are displayed with localized labels and consistent mapping.
 
