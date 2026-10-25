@@ -254,19 +254,19 @@
 
 ## Phase 8 — Tests, CI, Quality Gates [INFRA]
 
-- T056 [INFRA]: Configurar GitHub Actions (ou equivalente) rodando `Pint --test`, `ESLint`, `Pest`, `Vitest` em `push` e `PR`.
+- [X] T056 [INFRA]: Configurar GitHub Actions (ou equivalente) rodando `Pint --test`, `ESLint`, `Pest`, `Vitest` em `push` e `PR`.
   - Files: `.github/workflows/*.yml`
   - Completion: CI runs the backend and frontend quality gates and fails on the relevant test or lint issues.
 
-- T057 [INFRA]: Teste de integração end-to-end cobrindo o caminho feliz completo (Breeze login → criar filament → criar part → criar product → criar plate → concluir → verificar estado → reabrir → reconciliar).
+- [X] T057 [INFRA]: Teste de integração end-to-end cobrindo o caminho feliz completo (Breeze login → criar filament → criar part → criar product → criar plate → concluir → verificar estado → reabrir → reconciliar).
   - Files: `tests/Feature/*.php`
   - Completion: the end-to-end flow passes with the complete production cycle in a real app run.
 
-- T058 [INFRA]: Verificar cobertura >= 80% nas Actions de negócio (Pest `--coverage` com gate no CI).
+- [X] T058 [INFRA]: Verificar cobertura >= 80% nas Actions de negócio (Pest `--coverage` com gate no CI).
   - Files: `phpunit.xml`, `.github/workflows/*.yml`
   - Completion: the test coverage gate passes and outputs a visible threshold report.
 
-- T059 [INFRA]: Constitution check final: revisar que os 12 princípios (I, II, III, IV, V, VI, VII, VIII, IX, A, B, C) estão cobertos por testes e implementação, conforme o plan.md.
+- [X] T059 [INFRA]: Constitution check final: revisar que os 12 princípios (I, II, III, IV, V, VI, VII, VIII, IX, A, B, C) estão cobertos por testes e implementação, conforme o plan.md.
   - Files: `spec.md`, `specs/001-gestao-producao-3d/plan.md`, `tests/**/*.php`
   - Completion: constitution review is recorded and every principle is validated by implementation or tests.
 

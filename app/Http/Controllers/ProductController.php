@@ -70,7 +70,7 @@ class ProductController extends Controller
     }
 
     /**
-     * @param array<int, array{id:int, quantity:int}> $parts
+     * @param  array<int, array{id:int, quantity:int}>  $parts
      * @return array<int, array{quantity:int}>
      */
     private function formatPartsForSync(array $parts): array

@@ -14,8 +14,7 @@ class CreateFilament
 {
     public function __construct(
         private readonly FilamentCodeGenerator $codeGenerator,
-    ) {
-    }
+    ) {}
 
     public function execute(
         string $material,

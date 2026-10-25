@@ -16,8 +16,7 @@ class CompletePlate
 {
     public function __construct(
         private readonly PlateSnapshotService $snapshotService,
-    ) {
-    }
+    ) {}
 
     public function execute(Plate $plate): Plate
     {

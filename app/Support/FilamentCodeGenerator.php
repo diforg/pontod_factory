@@ -36,8 +36,6 @@ class FilamentCodeGenerator
      * Numeric format:
      * - values below 10000 use 4 digits (0001, 0099, 9999)
      * - values at or above 10000 grow to 5 digits without padding (10000, 12345)
-     *
-     * @return string
      */
     public function generate(string $material, string $brand, string $color): string
     {
@@ -45,7 +43,7 @@ class FilamentCodeGenerator
 
         return DB::transaction(function () use ($prefix) {
             $last = DB::table('filaments')
-                ->where('code', 'like', $prefix . '-%')
+                ->where('code', 'like', $prefix.'-%')
                 ->orderByDesc('code')
                 ->lockForUpdate()
                 ->first(['code']);
@@ -61,10 +59,10 @@ class FilamentCodeGenerator
             }
 
             if ($nextNumber < 10000) {
-                return $prefix . '-' . sprintf('%04d', $nextNumber);
+                return $prefix.'-'.sprintf('%04d', $nextNumber);
             }
 
-            return $prefix . '-' . (string) $nextNumber;
+            return $prefix.'-'.(string) $nextNumber;
         });
     }
 

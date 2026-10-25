@@ -110,14 +110,11 @@ class PlateController extends Controller
         try {
             match (true) {
                 $plate->status === PlateStatus::CREATED
-                    && $newStatus === PlateStatus::QUEUED
-                    => $plate->update(['status' => PlateStatus::QUEUED]),
+                    && $newStatus === PlateStatus::QUEUED => $plate->update(['status' => PlateStatus::QUEUED]),
                 $plate->status === PlateStatus::QUEUED
-                    && $newStatus === PlateStatus::PRINTING
-                    => $plate->update(['status' => PlateStatus::PRINTING]),
+                    && $newStatus === PlateStatus::PRINTING => $plate->update(['status' => PlateStatus::PRINTING]),
                 $plate->status === PlateStatus::PRINTING
-                    && $newStatus === PlateStatus::COMPLETED
-                    => $completePlate->execute($plate),
+                    && $newStatus === PlateStatus::COMPLETED => $completePlate->execute($plate),
                 default => throw new DomainException(
                     "Transicao invalida: {$plate->status->value} -> {$newStatus->value}"
                 ),
@@ -156,7 +153,7 @@ class PlateController extends Controller
     }
 
     /**
-     * @param array<int, array{id:int, quantity:int}> $parts
+     * @param  array<int, array{id:int, quantity:int}>  $parts
      * @return array<int, array{quantity:int}>
      */
     private function formatPartsForSync(array $parts): array
