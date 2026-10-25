@@ -21,9 +21,11 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/filaments', [FilamentController::class, 'index'])->name('filaments.index');
-    Route::get('/parts', [PartController::class, 'index'])->name('parts.index');
-    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+    Route::resource('filaments', FilamentController::class)->except(['show', 'create', 'edit', 'destroy']);
+    Route::post('filaments/{filament:code}/activate', [FilamentController::class, 'activate'])->name('filaments.activate');
+    Route::post('filaments/{filament:code}/deactivate', [FilamentController::class, 'deactivate'])->name('filaments.deactivate');
+    Route::resource('parts', PartController::class)->except(['show', 'create', 'edit']);
+    Route::resource('products', ProductController::class)->except(['show', 'create', 'edit']);
     Route::get('/plates', [PlateController::class, 'index'])->name('plates.index');
 });
 
