@@ -242,11 +242,11 @@
 
 ## Phase 7 — Seed & Manual Validation [INFRA]
 
-- T054 [INFRA]: Seeder com dados do arquivo original: 2 filamentos (`PLA-MULTFILA-ROSA-0001`, `PLA-MULTFILA-PRETO-0001`), 3 peças (`NUV1-DOMO_INFERIOR_A/B/C`), 2 produtos (`NUVP1 P`, `NUVP2 M`), 1 placa em `PRINTING`.
+- [X] T054 [INFRA]: Seeder com dados do arquivo original: 2 filamentos (`PLA-MULTFILA-ROSA-0001`, `PLA-MULTFILA-PRETO-0001`), 3 peças (`NUV1-DOMO_INFERIOR_A/B/C`), 2 produtos (`NUVP1 P`, `NUVP2 M`), 1 placa em `PRINTING`.
   - Files: `database/seeders/*.php`
   - Completion: the seed set creates the baseline production data and is idempotent when re-run.
 
-- T055 [INFRA]: Executar o cenário do quickstart ponta a ponta em ambiente Docker limpo e validar: criar filament → criar part → criar product → criar plate → concluir → verificar balance + items + ledger → reabrir → verificar `REVERSAL` → reconciliação dry-run/apply.
+- [X] T055 [INFRA]: Executar o cenário do quickstart ponta a ponta em ambiente Docker limpo e validar: criar filament → criar part → criar product → criar plate → concluir → verificar balance + items + ledger → reabrir → verificar `REVERSAL` → reconciliação dry-run/apply.
   - Files: `database/seeders/*.php`, `docs/quickstart.md`
   - Completion: the documented manual validation passes in a clean Docker environment.
 
