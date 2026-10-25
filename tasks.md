@@ -126,19 +126,19 @@
   - Files: `app/Actions/CompletePlate.php`
   - Completion: `T027` passes and no invalid completion writes any side effects.
 
-- T029 [US2]: Teste Feature `ReopenPlate` cobrindo: limpa `plates.consumed_filament_g` e `part_plate.consumed_filament_g`, remove `items`, grava `REVERSAL` no ledger usando o snapshot congelado, volta status para `PRINTING`, e idempotência (segunda chamada não faz nada).
+- [X] T029 [US2]: Teste Feature `ReopenPlate` cobrindo: limpa `plates.consumed_filament_g` e `part_plate.consumed_filament_g`, remove `items`, grava `REVERSAL` no ledger usando o snapshot congelado, volta status para `PRINTING`, e idempotência (segunda chamada não faz nada).
   - Files: `tests/Feature/Plates/ReopenPlateTest.php`
   - Completion: the test is written before implementation and validates reversal semantics and idempotence.
 
-- T030 [US2]: Implementar `App\Actions\ReopenPlate`.
+- [X] T030 [US2]: Implementar `App\Actions\ReopenPlate`.
   - Files: `app/Actions/ReopenPlate.php`
   - Completion: `T029` passes and reopening reverts the plate without duplicate bookkeeping.
 
-- T031 [US4]: Teste Feature `ReconcileFilaments` cobrindo dry-run, `--apply` com `RECONCILIATION_ADJUSTMENT`, `source_type = RECONCILIATION`, `source_id = NULL`, `previous/new balance` corretos, ausência de `UPDATE` direto em `filaments.balance`, e filamentos consistentes sem movimentação.
+- [X] T031 [US4]: Teste Feature `ReconcileFilaments` cobrindo dry-run, `--apply` com `RECONCILIATION_ADJUSTMENT`, `source_type = RECONCILIATION`, `source_id = NULL`, `previous/new balance` corretos, ausência de `UPDATE` direto em `filaments.balance`, e filamentos consistentes sem movimentação.
   - Files: `tests/Feature/Reconciliation/ReconcileFilamentsTest.php`
   - Completion: the test is written before implementation and covers both dry-run and apply paths.
 
-- T032 [US4]: Implementar `App\Actions\ReconcileFilaments`.
+- [X] T032 [US4]: Implementar `App\Actions\ReconcileFilaments`.
   - Files: `app/Actions/ReconcileFilaments.php`
   - Completion: `T031` passes and reconcile updates the ledger without mutating balance directly.
 
